@@ -1,6 +1,7 @@
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -171,7 +172,7 @@ public class TesteCampoTreinamento {
 		// Propriedade que vai me retornar o local exato onde o java esta rodando
 		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
 
-		// Encontra o elemento Web
+		// Encontra o elemento Web ( o web element eh o retorno do findElement)
 		WebElement element = driver.findElement(By.id("elementosForm:esportes"));
 
 		// Seleciona o elemento web
@@ -186,11 +187,77 @@ public class TesteCampoTreinamento {
 		List<WebElement> allSelectedOptions = combo.getAllSelectedOptions();
 		Assert.assertEquals(3, allSelectedOptions.size());
 
-		//desmarca uma opção do combo
+		// desmarca uma opção do combo
 		combo.deselectByVisibleText("Corrida");
 		allSelectedOptions = combo.getAllSelectedOptions();
 		Assert.assertEquals(2, allSelectedOptions.size());
 		driver.quit();
 
+	}
+
+	@Test
+	public void deveInteragirComBotoes() {
+
+		WebDriver driver = new FirefoxDriver();
+
+		// Posicao do browser:
+		driver.manage().window().setSize(new Dimension(1200, 765));
+
+		// Propriedade que vai me retornar o local exato onde o java esta rodando
+		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+
+		// clica no determinado botao
+//		driver.findElement(By.id("buttonSimple")).click();
+
+		// clica no botao e confirma o webelement(ou seja, que é mesmo aquele botao que
+		// ele quer) dele
+		WebElement botao = driver.findElement(By.id("buttonSimple"));
+		botao.click();
+
+		Assert.assertEquals("Obrigado!", botao.getAttribute("value"));
+		driver.quit();
+	}
+
+	@Test
+	//@Ignore //diz pro junit - ignore este teste
+	public void deveInteragirComLinks() {
+
+		WebDriver driver = new FirefoxDriver();
+
+		// Posicao do browser:
+		driver.manage().window().setSize(new Dimension(1200, 765));
+
+		// Propriedade que vai me retornar o local exato onde o java esta rodando
+		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+
+		// inspecionar links
+		driver.findElement(By.linkText("Voltar")).click();
+		
+		//obriga o testa a falhar
+		//Assert.fail();
+		
+		Assert.assertEquals("Voltou!", driver.findElement(By.id("resultado")).getText());
+		driver.quit();
+		
+	}
+	
+	@Test
+	public void deveBuscarTextosNaPagina() {
+
+		WebDriver driver = new FirefoxDriver();
+
+		// Posicao do browser:
+		driver.manage().window().setSize(new Dimension(1200, 765));
+
+		// Propriedade que vai me retornar o local exato onde o java esta rodando
+		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+		
+		//procura o elemento por sua propriedade
+		//Assert.assertEquals("Campo de Treinamento", driver.findElement(By.tagName("h3")).getText());
+		
+		//procura o elemento na pagina pelo primeiro elemento que aparecer na tela, por isso deve sempre encontrar uma forma mais especifica 
+		Assert.assertEquals("Cuidado onde clica, muitas armadilhas...", driver.findElement(By.className("facilAchar")).getText());
+		driver.quit();
+		
 	}
 }
