@@ -1,7 +1,6 @@
 import java.util.List;
-
 import org.junit.Assert;
-import org.junit.Ignore;
+//import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -255,9 +254,9 @@ public class TesteCampoTreinamento {
 		//procura o elemento por sua propriedade
 		//Assert.assertEquals("Campo de Treinamento", driver.findElement(By.tagName("h3")).getText());
 		
-		//procura o elemento na pagina pelo primeiro elemento que aparecer na tela, por isso deve sempre encontrar uma forma mais especifica 
+		//procura o primeiro elemento que aparecer na tela, por isso deve sempre encontrar uma forma mais especifica 
 		Assert.assertEquals("Cuidado onde clica, muitas armadilhas...", driver.findElement(By.className("facilAchar")).getText());
 		driver.quit();
-		
 	}
+	
 }
