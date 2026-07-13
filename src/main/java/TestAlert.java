@@ -49,44 +49,46 @@ public class TestAlert {
 
 		// interage com o botao alert que vai clicar e abrir o modal alerta
 		driver.findElement(By.id("confirm")).click();
-		
-		//agora começa o controle de fluxos condicionais dentro da modal
 
-		
+		// agora começa o controle de fluxos condicionais dentro da modal
+
 		Alert alerta = driver.switchTo().alert();
 		Assert.assertEquals("Confirm Simples", alerta.getText());
-		//acept eh para aceitar uma ação
+		// acept eh para aceitar uma ação
 		alerta.accept();
 		alerta = driver.switchTo().alert();
 		Assert.assertEquals("Confirmado", alerta.getText());
 		alerta.accept();
-		
+
 		driver.findElement(By.id("confirm")).click();
 		alerta = driver.switchTo().alert();
 		Assert.assertEquals("Confirm Simples", alerta.getText());
-		//dismiss eh para simular o cancelamento da ação
+		// dismiss eh para simular o cancelamento da ação
 		alerta.dismiss();
 		alerta = driver.switchTo().alert();
 		Assert.assertEquals("Negado", alerta.getText());
 		alerta.dismiss();
-		
+
 		driver.quit();
 	}
-	
+
+	@Test
 	public void deveInteragirComAlertPrompt() {
 
 		WebDriver driver = new FirefoxDriver();
 		driver.manage().window().setSize(new Dimension(1200, 765));
 		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
 
-	
 		driver.findElement(By.id("prompt")).click();
 		Alert alerta = driver.switchTo().alert();
 		Assert.assertEquals("Digite um numero", alerta.getText());
-		
-		
-		//terminar codigo
-		
-		
 
+		alerta.sendKeys("12");
+		alerta.accept();
+		Assert.assertEquals("Era 12?", alerta.getText());
+		alerta.accept();
+		Assert.assertEquals(":D", alerta.getText());
+		alerta.accept();
+		driver.quit();
+	}
 }

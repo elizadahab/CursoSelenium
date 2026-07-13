@@ -20,6 +20,6 @@ public class TesteEdge {
 
 		Assert.assertEquals("Google", driver.getTitle());
 
-		driver.quit();
+		//driver.quit();
 	}
 }
