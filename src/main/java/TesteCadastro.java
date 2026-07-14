@@ -32,6 +32,5 @@ public class TesteCadastro {
 		Assert.assertEquals("Sugestoes: Eu faço crossfit!", driver.findElement(By.id("descSugestoes")).getText());
 		
 		driver.quit();
-		
 	}
 }
