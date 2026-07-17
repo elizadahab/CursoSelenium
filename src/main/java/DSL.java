@@ -1,10 +1,12 @@
-import java.util.ArrayList;
-import java.util.List;
-
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DSL {
 
@@ -18,6 +20,7 @@ public class DSL {
 
 	// metodo que encontra pelo id e escreve no campo
 	public void escrever(By by, String texto) {
+		driver.findElement(by).clear();
 		driver.findElement(by).sendKeys(texto);
 	}
 
@@ -38,6 +41,10 @@ public class DSL {
 
 	public boolean isRadioMarcado(String id) {
 		return driver.findElement(By.id(id)).isSelected(); // verifica se realmente o elemento esta clicado
+	}
+
+	public void clicarCheck(String id) {
+		driver.findElement(By.id(id)).click();
 	}
 
 	public boolean isCheckMarcado(String id) {
@@ -65,12 +72,11 @@ public class DSL {
 	}
 
 	public List<String> obterValoresCombo(String id) {
-		WebElement element = driver.findElement(By.id(id));
+		WebElement element = driver.findElement(By.id("elementosForm:esportes"));
 		Select combo = new Select(element);
 		List<WebElement> allSelectedOptions = combo.getAllSelectedOptions();
-		// converto tudo para uma lista de string, pegando o webelement e o getText
 		List<String> valores = new ArrayList<String>();
-		for (WebElement opcao : allSelectedOptions) {
+		for(WebElement opcao: allSelectedOptions) {
 			valores.add(opcao.getText());
 		}
 		return valores;
@@ -101,8 +107,8 @@ public class DSL {
 		driver.findElement(By.id(id)).click();
 	}
 	
-	public String obterValueCampo(String id_campo) {
-		return driver.findElement(By.id(id_campo)).getAttribute("value");
+	public String obterValueElemento(String id) {
+		return driver.findElement(By.id(id)).getAttribute("value");
 	}
 	
 	/**************** Link ******************/
@@ -123,5 +129,53 @@ public class DSL {
 	
 	/**************** Alerts ******************/
 
+	public String alertaObterTexto(){
+		Alert alert = driver.switchTo().alert();
+		return alert.getText();
+	}
+
+	public String alertaObterTextoEAceita(){
+		Alert alert = driver.switchTo().alert();
+		String valor = alert.getText();
+		alert.accept();
+		return valor;
+
+	}
+
+	public String alertaObterTextoENega(){
+		Alert alert = driver.switchTo().alert();
+		String valor = alert.getText();
+		alert.dismiss();
+		return valor;
+
+	}
+
+	public void alertaEscrever(String valor) {
+		Alert alert = driver.switchTo().alert();
+		alert.sendKeys(valor);
+		alert.accept();
+	}
+
+	/********* Frames e Janelas ************/
+
+	public void entrarFrame(String id) {
+		driver.switchTo().frame(id);
+	}
+
+	public void sairFrame(){
+		driver.switchTo().defaultContent();
+	}
+
+	public void trocarJanela(String id) {
+		driver.switchTo().window(id);
+	}
 	
+	/************** JS *********************/
+	
+	public Object executarJS(String cmd, Object... param) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		return js.executeScript(cmd, param);
+	}
 }
+
+
