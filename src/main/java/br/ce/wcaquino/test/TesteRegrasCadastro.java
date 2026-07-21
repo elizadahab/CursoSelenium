@@ -1,8 +1,10 @@
+package br.ce.wcaquino.test;
+import static br.ce.wcaquino.core.DriverFactory.getDriver;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,15 +12,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+
+import br.ce.wcaquino.core.DSL;
+import br.ce.wcaquino.page.CampoTreinamentoPage;
 
 
 @RunWith(Parameterized.class)
 public class TesteRegrasCadastro {
 
-	private WebDriver driver;
 	private DSL dsl;
 	private CampoTreinamentoPage page;
 	
@@ -38,26 +39,19 @@ public class TesteRegrasCadastro {
 
 	@Before
 	public void inicializa(){
-		driver = new FirefoxDriver();
-		driver.manage().window().setSize(new Dimension(1200, 765));
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
-		dsl = new DSL(driver);
-		page = new CampoTreinamentoPage(driver);
+		getDriver().get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+		dsl = new DSL();
+		page = new CampoTreinamentoPage();
 	}
 	
-	@After
-	public void finaliza(){
-		driver.quit();
-	}
-	
-	@Parameters // sao chamados la em cima pelo seu valor da ordem
-	public static Collection<Object[]> getCollection(){ 
+	@Parameters
+	public static Collection<Object[]> getCollection(){
 		return Arrays.asList(new Object[][] {
 			{"", "", "", Arrays.asList(), new String[]{}, "Nome eh obrigatorio"},
-			{"Elizabeth", "", "", Arrays.asList(), new String[]{}, "Sobrenome eh obrigatorio"},
-			{"Elizabeth", "Dahab", "", Arrays.asList(), new String[]{}, "Sexo eh obrigatorio"},
-			{"Elizabeth", "Dahab", "Feminino", Arrays.asList("Carne", "Vegetariano"), new String[]{}, "Tem certeza que voce eh vegetariano?"},
-			{"Elizabeth", "Dahab", "Feminino", Arrays.asList("Carne"), new String[]{"Karate", "O que eh esporte?"}, "Voce faz esporte ou nao?"}
+			{"Wagner", "", "", Arrays.asList(), new String[]{}, "Sobrenome eh obrigatorio"},
+			{"Wagner", "Costa", "", Arrays.asList(), new String[]{}, "Sexo eh obrigatorio"},
+			{"Wagner", "Costa", "Masculino", Arrays.asList("Carne", "Vegetariano"), new String[]{}, "Tem certeza que voce eh vegetariano?"},
+			{"Wagner", "Costa", "Masculino", Arrays.asList("Carne"), new String[]{"Karate", "O que eh esporte?"}, "Voce faz esporte ou nao?"}
 		});
 	}
 	
